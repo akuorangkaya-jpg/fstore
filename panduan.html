@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fstore - Panduan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <h1>Fstore</h1>
+      <ul>
+        <li><a href="index.html">Dashboard</a></li>
+        <li><a href="transaksi.html">Transaksi</a></li>
+        <li><a href="panduan.html" class="active">Panduan</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="guide-card">
+      <h2>Panduan Menambah Transaksi</h2>
+      <p>Untuk menambah transaksi baru, ikuti langkah-langkah berikut:</p>
+      <ol>
+        <li>Buka Google Sheets dengan mengklik tombol di bawah.</li>
+        <li>Tambahkan baris baru di lembar kerja.</li>
+        <li>Isi kolom-kolom berikut:
+          <ul>
+            <li><strong>Tanggal:</strong> Format YYYY-MM-DD (misal: 2025-06-23)</li>
+            <li><strong>Kategori:</strong> "Pendapatan" atau "Pengeluaran"</li>
+            <li><strong>Deskripsi:</strong> Deskripsi transaksi</li>
+            <li><strong>Pendapatan:</strong> Jumlah pendapatan (jika kategori Pendapatan)</li>
+            <li><strong>Pengeluaran:</strong> Jumlah pengeluaran (jika kategori Pengeluaran)</li>
+            <li><strong>Catatan:</strong> Catatan tambahan (opsional)</li>
+            <li><strong>Bukti:</strong> Link Google Drive ke bukti transaksi (opsional)</li>
+          </ul>
+        </li>
+        <li>Jika ada bukti transaksi, upload file ke Google Drive terlebih dahulu, kemudian salin linknya ke kolom Bukti.</li>
+      </ol>
+
+      <a href="#" id="sheetsLink" class="btn-primary" target="_blank">Buka Google Sheets</a>
+
+      <div class="file-types">
+        <strong>Tipe file yang diterima untuk bukti transaksi:</strong>
+        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+          <li>JPG / JPEG</li>
+          <li>PNG</li>
+          <li>PDF</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Fstore. Semua hak cipta dilindungi.</p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const link = document.getElementById('sheetsLink');
+      link.href = CONFIG.GOOGLE_SHEETS_EDIT_URL();
+    });
+  </script>
+</body>
+</html>

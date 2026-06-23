@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fstore - Transparansi Keuangan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <h1>Fstore</h1>
+      <ul>
+        <li><a href="index.html" class="active">Dashboard</a></li>
+        <li><a href="transaksi.html">Transaksi</a></li>
+        <li><a href="panduan.html">Panduan</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="last-updated" id="lastUpdated"></div>
+
+    <div class="summary-cards" id="summaryCards">
+      <div class="loading">Memuat data...</div>
+    </div>
+
+    <div class="chart-container" id="chartContainer" style="display: none;">
+      <h2 class="section-title">Aliran Kas Bulanan</h2>
+      <canvas id="cashflowChart"></canvas>
+    </div>
+
+    <div class="table-container" id="recentTransactionsContainer" style="display: none;">
+      <h2 class="section-title" style="padding: 1.5rem 1.5rem 0;">Transaksi Terbaru</h2>
+      <table id="recentTransactionsTable">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Kategori</th>
+            <th>Deskripsi</th>
+            <th>Pendapatan</th>
+            <th>Pengeluaran</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Fstore. Semua hak cipta dilindungi.</p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
