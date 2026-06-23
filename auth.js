@@ -1,0 +1,264 @@
+// Configuration
+const CORRECT_PIN = "072201";
+
+// Global variables
+let introScreen = null;
+let roleSelectionScreen = null;
+let pinModal = null;
+
+// Initialize authentication
+function initAuth() {
+  const role = sessionStorage.getItem('fstore-role');
+  const currentPath = window.location.pathname;
+  const isHomePage = currentPath.includes('home.html') || currentPath.endsWith('/') || (currentPath.endsWith('index.html') && !role);
+  
+  if (!role) {
+    if (isHomePage && !currentPath.includes('transaksi.html') && !currentPath.includes('panduan.html')) {
+      showIntroAndRoleSelection();
+    } else {
+      showPinModal('restricted');
+    }
+  } else {
+    checkPageAccess(role);
+  }
+
+  addNavbarLinkListeners();
+}
+
+// Show intro and role selection
+function showIntroAndRoleSelection() {
+  introScreen = document.createElement('div');
+  introScreen.id = 'intro-screen';
+  introScreen.innerHTML = `
+    <div class="intro-container">
+      <img src="logo-fstore.png" alt="Logo Fstore" class="intro-logo">
+    </div>
+  `;
+  document.body.appendChild(introScreen);
+
+  setTimeout(() => {
+    showRoleSelection();
+  }, 3000);
+}
+
+// Show role selection
+function showRoleSelection() {
+  if (introScreen) {
+    introScreen.style.opacity = '0';
+    introScreen.style.pointerEvents = 'none';
+    setTimeout(() => introScreen.remove(), 300);
+  }
+
+  roleSelectionScreen = document.createElement('div');
+  roleSelectionScreen.id = 'role-selection-screen';
+  roleSelectionScreen.innerHTML = `
+    <div class="role-selection-container">
+      <h2 class="role-selection-title">Pilih Akses Anda</h2>
+      <div class="role-cards">
+        <div class="role-card stakeholder-card">
+          <div class="role-icon">👥</div>
+          <h3 class="role-card-title">Stakeholder</h3>
+          <p class="role-card-description">Akses untuk pengurus atau pihak internal yang memiliki PIN.</p>
+          <button class="role-btn stakeholder-btn">Masuk sebagai Stakeholder</button>
+        </div>
+        <div class="role-card viewer-card">
+          <div class="role-icon">👁️</div>
+          <h3 class="role-card-title">Viewer</h3>
+          <p class="role-card-description">Akses terbatas untuk melihat informasi umum Fstore.</p>
+          <button class="role-btn viewer-btn">Masuk sebagai Viewer</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(roleSelectionScreen);
+
+  document.querySelector('.stakeholder-btn').addEventListener('click', () => showPinModal('role-select'));
+  document.querySelector('.viewer-btn').addEventListener('click', () => {
+    sessionStorage.setItem('fstore-role', 'viewer');
+    sessionStorage.setItem('pendingToast', 'Anda login sebagai Viewer');
+    roleSelectionScreen.style.opacity = '0';
+    roleSelectionScreen.style.pointerEvents = 'none';
+    setTimeout(() => {
+      roleSelectionScreen.remove();
+      if (introScreen) introScreen.remove();
+      window.location.href = 'home.html';
+    }, 300);
+  });
+}
+
+// Show PIN modal
+function showPinModal(type) {
+  pinModal = document.createElement('div');
+  pinModal.id = 'pin-modal';
+  
+  let title = "Masukkan PIN";
+  let description = "";
+  
+  if (type === 'restricted') {
+    title = "Halaman Ini Hanya untuk Stakeholder";
+    description = "Halaman ini hanya dapat diakses oleh Stakeholder. Silakan masukkan PIN untuk melanjutkan.";
+  }
+
+  pinModal.innerHTML = `
+    <div class="pin-modal-overlay">
+      <div class="pin-modal-content">
+        <button class="pin-modal-close" aria-label="Tutup">&times;</button>
+        <h3 class="pin-modal-title">${title}</h3>
+        ${description ? `<p class="pin-modal-description">${description}</p>` : ''}
+        <div class="pin-input-container">
+          <input type="password" id="pin-input" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="Masukkan 6 digit PIN">
+          <p id="pin-error" class="pin-error" style="display: none;"></p>
+        </div>
+        <div class="pin-modal-buttons">
+          <button class="pin-modal-btn pin-cancel-btn">Kembali</button>
+          <button class="pin-modal-btn pin-submit-btn" id="pin-submit-btn">Verifikasi</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(pinModal);
+
+  const pinInput = document.getElementById('pin-input');
+  const pinError = document.getElementById('pin-error');
+  const closeBtn = pinModal.querySelector('.pin-modal-close');
+  const cancelBtn = pinModal.querySelector('.pin-cancel-btn');
+  const submitBtn = document.getElementById('pin-submit-btn');
+
+  // Focus the input
+  setTimeout(() => pinInput.focus(), 100);
+
+  // Handle input to only allow digits
+  pinInput.addEventListener('input', (e) => {
+    pinInput.value = pinInput.value.replace(/\D/g, '');
+    pinError.style.display = 'none';
+  });
+
+  // Handle submit button
+  submitBtn.addEventListener('click', verifyPin);
+
+  // Handle enter key
+  pinInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      verifyPin();
+    }
+  });
+
+  // Handle cancel/close
+  const handleCancel = () => {
+    pinModal.remove();
+    if (type === 'restricted') window.location.href = 'home.html';
+  };
+  closeBtn.addEventListener('click', handleCancel);
+  cancelBtn.addEventListener('click', handleCancel);
+
+  // Verify PIN function
+  function verifyPin() {
+    if (pinInput.value === CORRECT_PIN) {
+      sessionStorage.setItem('fstore-role', 'stakeholder');
+      sessionStorage.setItem('pendingToast', 'Anda login sebagai Stakeholder');
+      pinModal.remove();
+      if (roleSelectionScreen) {
+        roleSelectionScreen.style.opacity = '0';
+        roleSelectionScreen.style.pointerEvents = 'none';
+        setTimeout(() => {
+          roleSelectionScreen.remove();
+          if (introScreen) introScreen.remove();
+          if (type === 'role-select') {
+            window.location.href = 'home.html';
+          }
+        }, 300);
+      } else if (type === 'role-select' && !roleSelectionScreen) {
+        if (introScreen) introScreen.remove();
+        window.location.href = 'home.html';
+      }
+    } else {
+      pinError.textContent = 'PIN yang Anda masukkan salah. Silakan coba lagi atau hubungi developer untuk PIN nya.';
+      pinError.style.display = 'block';
+      pinInput.focus();
+    }
+  }
+}
+
+// Check page access based on role
+function checkPageAccess(role) {
+  const currentPath = window.location.pathname;
+  const isRestrictedPage = 
+    currentPath.includes('index.html') || 
+    currentPath.includes('transaksi.html') || 
+    currentPath.includes('panduan.html');
+
+  if (role === 'viewer' && isRestrictedPage) {
+    showPinModal('restricted');
+  }
+}
+
+// Add event listeners to navbar links
+function addNavbarLinkListeners() {
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href) return;
+
+    const isRestrictedLink = 
+      href.includes('index.html') || 
+      href.includes('transaksi.html') || 
+      href.includes('panduan.html');
+
+    const role = sessionStorage.getItem('fstore-role');
+    if (isRestrictedLink && role === 'viewer') {
+      e.preventDefault();
+      showPinModal('restricted');
+    }
+  });
+}
+
+// Show login toast notification
+function showLoginToast(message) {
+  // Remove existing toast if present
+  const existingToast = document.querySelector('.toast-notification');
+  if (existingToast) existingToast.remove();
+
+  // Create new toast
+  const toast = document.createElement('div');
+  toast.className = 'toast-notification';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  // Animate in
+  setTimeout(() => toast.classList.add('show'), 10);
+
+  // Animate out and remove after 4 seconds
+  setTimeout(() => {
+    toast.classList.remove('show');
+    toast.classList.add('hide');
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
+}
+
+// Logout / Change Role
+function logout() {
+  sessionStorage.removeItem('fstore-role');
+  window.location.href = 'home.html';
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  const navbar = document.querySelector('nav .container');
+  if (navbar) {
+    const logoutBtn = document.createElement('button');
+    logoutBtn.className = 'logout-btn';
+    logoutBtn.textContent = 'Ganti Akses';
+    logoutBtn.addEventListener('click', logout);
+    navbar.appendChild(logoutBtn);
+  }
+
+  // Check for pending toast
+  const pendingToast = sessionStorage.getItem('pendingToast');
+  if (pendingToast) {
+    sessionStorage.removeItem('pendingToast');
+    showLoginToast(pendingToast);
+  }
+
+  initAuth();
+});

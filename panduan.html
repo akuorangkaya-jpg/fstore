@@ -6,19 +6,23 @@
   <title>Fstore - Panduan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght600;700;800&family=Inter:wght400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <nav>
     <div class="container">
-      <h1>Fstore</h1>
-      <ul>
+      <a href="home.html" class="logo">
+        <img src="logo-fstore.png" alt="Logo Fstore" class="logo-img">
+      </a>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
         <li><a href="index.html">Dashboard</a></li>
         <li><a href="transaksi.html">Transaksi</a></li>
         <li><a href="panduan.html" class="active">Panduan</a></li>
       </ul>
     </div>
+    <div class="header-wave"></div>
   </nav>
 
   <div class="container">
@@ -46,7 +50,7 @@
 
       <div class="file-types">
         <strong>Tipe file yang diterima untuk bukti transaksi:</strong>
-        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+        <ul>
           <li>JPG / JPEG</li>
           <li>PNG</li>
           <li>PDF</li>
@@ -66,5 +70,6 @@
       link.href = CONFIG.GOOGLE_SHEETS_EDIT_URL();
     });
   </script>
+  <script src="auth.js"></script>
 </body>
 </html>

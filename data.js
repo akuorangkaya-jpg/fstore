@@ -195,3 +195,19 @@ function getMonthlyCashflow(transactions) {
     ...monthlyData[key]
   }));
 }
+
+// Fungsi untuk mendapatkan tanggal transaksi terbaru
+function getLatestTransactionDate(transactions) {
+  let latestDate = null;
+
+  transactions.forEach(t => {
+    const date = new Date(t.date);
+    if (!isNaN(date.getTime())) {
+      if (!latestDate || date > latestDate) {
+        latestDate = date;
+      }
+    }
+  });
+
+  return latestDate;
+}

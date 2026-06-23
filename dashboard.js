@@ -9,15 +9,16 @@ async function initDashboard() {
     .slice(0, 10);
 
   // Update last updated
-  document.getElementById('lastUpdated').textContent = `Terakhir diperbarui: ${new Date().toLocaleString('id-ID')}`;
+  const lastUpdatedElement = document.getElementById('lastUpdated');
+  const latestDate = getLatestTransactionDate(transactions);
+  if (latestDate) {
+    lastUpdatedElement.textContent = `Terakhir diperbarui: ${formatDate(latestDate)}`;
+  } else {
+    lastUpdatedElement.textContent = 'Terakhir diperbarui: Belum tersedia';
+  }
 
-  // Render summary cards
   renderSummaryCards(summary);
-
-  // Render chart
   renderChart(monthlyCashflow);
-
-  // Render recent transactions
   renderRecentTransactions(recentTransactions);
 }
 
@@ -64,14 +65,16 @@ function renderChart(monthlyCashflow) {
         {
           label: 'Pendapatan',
           data: monthlyCashflow.map(m => m.income),
-          backgroundColor: '#22c55e',
-          borderRadius: 4
+          backgroundColor: '#75c900',
+          borderRadius: 8,
+          borderSkipped: false
         },
         {
           label: 'Pengeluaran',
           data: monthlyCashflow.map(m => m.expense),
-          backgroundColor: '#ef4444',
-          borderRadius: 4
+          backgroundColor: '#ff6b1a',
+          borderRadius: 8,
+          borderSkipped: false
         }
       ]
     },
@@ -80,11 +83,35 @@ function renderChart(monthlyCashflow) {
       plugins: {
         legend: {
           position: 'top',
+          labels: {
+            font: {
+              family: 'Inter',
+              size: 14
+            }
+          }
         }
       },
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: true,
+          grid: {
+            color: '#f1f5f9'
+          },
+          ticks: {
+            font: {
+              family: 'Inter'
+            }
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          },
+          ticks: {
+            font: {
+              family: 'Inter'
+            }
+          }
         }
       }
     }
