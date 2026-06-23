@@ -1,0 +1,283 @@
+/* Reset dan dasar styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Navigasi */
+nav {
+  background-color: #1e3a5f;
+  color: white;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+nav .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+
+nav a:hover, nav a.active {
+  opacity: 0.8;
+}
+
+/* Container utama */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Kartu ringkasan */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  color: #666;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.card .amount {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.card.income .amount {
+  color: #22c55e;
+}
+
+.card.expense .amount {
+  color: #ef4444;
+}
+
+.card.balance .amount {
+  color: #1e3a5f;
+}
+
+/* Judul bagian */
+.section-title {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #1e3a5f;
+}
+
+/* Tabel transaksi */
+.table-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+tr:hover {
+  background-color: #f8fafc;
+}
+
+.income-text {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.expense-text {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.proof-link {
+  color: #1e3a5f;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.proof-link:hover {
+  text-decoration: underline;
+}
+
+/* Filter dan pencarian */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.filters input, .filters select {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.filters input[type="text"] {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Chart */
+.chart-container {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+canvas {
+  width: 100% !important;
+  height: 300px !important;
+}
+
+/* Panduan */
+.guide-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.guide-card h2 {
+  color: #1e3a5f;
+  margin-bottom: 1rem;
+}
+
+.guide-card ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.guide-card li {
+  margin-bottom: 0.8rem;
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: #1e3a5f;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #2d4a6f;
+}
+
+.file-types {
+  background-color: #f8fafc;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+/* Footer */
+footer {
+  background-color: #1e3a5f;
+  color: white;
+  text-align: center;
+  padding: 1.5rem;
+  margin-top: 3rem;
+}
+
+/* Loading dan error */
+.loading, .error {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.1rem;
+}
+
+/* Last updated */
+.last-updated {
+  text-align: right;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  nav ul {
+    gap: 1rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .filters input, .filters select {
+    width: 100%;
+  }
+}
