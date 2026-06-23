@@ -41,7 +41,7 @@ Maka ID-nya adalah: `1234567890abcdefghijklmnopqrstuvwxyz`
 
 ### 4. Konfigurasi Website
 
-Buka file `js/config.js` dan ganti nilai `GOOGLE_SHEETS_ID` dengan ID Google Sheets Anda:
+Buka file `config.js` dan ganti nilai `GOOGLE_SHEETS_ID` dengan ID Google Sheets Anda:
 
 ```javascript
 const CONFIG = {
