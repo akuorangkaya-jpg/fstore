@@ -245,6 +245,7 @@ nav a.active {
 
 /* Main Container */
 .container {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
@@ -1202,40 +1203,18 @@ footer p {
 /* Responsive Design */
 @media (max-width: 768px) {
   nav {
-    padding: 1rem;
-  }
-
-  nav .container {
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  nav {
     padding: 12px 24px;
     min-height: 120px;
   }
 
   nav .container {
+    flex-wrap: wrap;
+    gap: 1rem;
     min-height: 120px;
   }
 
   nav .logo .logo-img {
     height: 88px;
-  }
-
-  @media (max-width: 480px) {
-    nav {
-      padding: 12px 16px;
-      min-height: 88px;
-    }
-
-    nav .container {
-      min-height: 88px;
-    }
-
-    nav .logo .logo-img {
-      height: 60px;
-    }
   }
 
   nav .nav-links {
@@ -1244,7 +1223,7 @@ footer p {
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    margin-right: 0;
+    margin: 0;
   }
 
   .logout-btn {
@@ -1333,19 +1312,13 @@ footer p {
 /* NAVBAR POSITION + HEIGHT FIX */
 nav {
   min-height: 155px !important;
-  max-height: 165px !important;
 }
 
 nav .container {
   width: 100% !important;
   max-width: 1440px !important;
-  height: 155px !important;
-  min-height: 155px !important;
   margin: 0 auto !important;
-  padding-left: 48px !important;
-  padding-right: 48px !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  padding: 0 48px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -1371,31 +1344,48 @@ nav .nav-links {
 @media (max-width: 768px) {
   nav {
     min-height: 120px !important;
-    max-height: 130px !important;
+    max-height: none !important;
   }
 
   nav .container {
     min-height: 120px !important;
-    height: 120px !important;
+    height: auto !important;
     padding-left: 20px !important;
     padding-right: 20px !important;
     flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 1rem !important;
   }
 
   nav .nav-links {
     gap: 18px !important;
+    width: 100% !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+  }
+
+  nav .logout-btn {
+    margin-left: 0 !important;
+    width: 100% !important;
+    margin-top: 0.5rem !important;
   }
 }
 
 @media (max-width: 480px) {
   nav {
     min-height: 95px !important;
-    max-height: 105px !important;
+    max-height: none !important;
   }
 
   nav .container {
     min-height: 95px !important;
-    height: 95px !important;
+    height: auto !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  nav .logo .logo-img {
+    height: 60px !important;
   }
 }
 
