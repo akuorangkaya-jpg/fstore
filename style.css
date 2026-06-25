@@ -1477,3 +1477,310 @@ nav .logout-btn {
     max-width: none;
   }
 }
+/* =========================================================
+   MOBILE RESPONSIVE FIX - FSTORE
+   Aman untuk laptop karena hanya aktif di layar <= 768px
+========================================================= */
+
+@media (max-width: 768px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  /* ===== HEADER / NAVBAR MOBILE ===== */
+  header,
+  .header,
+  .site-header,
+  .main-header,
+  .navbar,
+  nav {
+    min-height: auto !important;
+    max-height: none !important;
+  }
+
+  .navbar-container,
+  .nav-container,
+  .header-container,
+  .header-content,
+  .navbar-content {
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 14px 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 14px !important;
+  }
+
+  .logo-img,
+  .navbar-logo,
+  .brand-logo,
+  .site-logo,
+  header img,
+  nav img {
+    height: 54px !important;
+    width: auto !important;
+    max-width: 180px !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  .nav-menu,
+  .nav-links,
+  .navbar-menu,
+  .navbar-links,
+  .navigation,
+  .menu {
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 10px 14px !important;
+    margin-left: 0 !important;
+  }
+
+  .nav-menu a,
+  .nav-links a,
+  .navbar-menu a,
+  .navbar-links a,
+  .navigation a,
+  .menu a {
+    font-size: 13px !important;
+    padding: 8px 10px !important;
+    white-space: nowrap !important;
+  }
+
+  .access-btn,
+  .logout-btn,
+  .switch-access-btn,
+  .ganti-akses-btn,
+  button {
+    max-width: 100%;
+  }
+
+  /* ===== GENERAL CONTAINER ===== */
+  .container,
+  .page-container,
+  .main-container,
+  main,
+  section {
+    width: 100% !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ===== HOME / HERO MOBILE ===== */
+  .hero,
+  .home-hero,
+  .dashboard-hero {
+    padding: 42px 16px !important;
+    text-align: center !important;
+  }
+
+  .hero h1,
+  .home-hero h1,
+  .dashboard-hero h1,
+  h1 {
+    font-size: 30px !important;
+    line-height: 1.15 !important;
+  }
+
+  .hero p,
+  .home-hero p,
+  .dashboard-hero p {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+
+  /* ===== DASHBOARD CARDS MOBILE ===== */
+  .summary-grid,
+  .cards-grid,
+  .dashboard-cards,
+  .monthly-summary-grid,
+  .monthly-grid,
+  .stats-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .card,
+  .summary-card,
+  .monthly-card,
+  .stat-card {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ===== FILTER TRANSAKSI MOBILE ===== */
+  .filter-panel,
+  .filters,
+  .filter-container,
+  .transaction-filters {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    padding: 16px !important;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ===== LAST UPDATED BADGE MOBILE ===== */
+  .last-updated,
+  .updated-badge,
+  .last-updated-badge {
+    display: inline-flex !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    margin-top: 14px !important;
+    margin-bottom: 18px !important;
+    font-size: 12px !important;
+  }
+
+  /* ===== TRANSACTION TABLE MOBILE ===== */
+  .table-wrapper,
+  .transaction-table-wrapper,
+  .table-container {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  table {
+    min-width: 760px !important;
+    border-collapse: collapse !important;
+  }
+
+  th,
+  td {
+    font-size: 13px !important;
+    padding: 12px 10px !important;
+    white-space: nowrap !important;
+  }
+
+  /* ===== SECTION TITLE MOBILE ===== */
+  .section-header,
+  .section-title-wrapper,
+  .transaksi-section-header {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    margin-top: 28px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .section-header h2,
+  .section-title-wrapper h2,
+  .transaksi-section-header h2,
+  h2 {
+    font-size: 22px !important;
+    line-height: 1.25 !important;
+  }
+
+  .section-header p,
+  .section-title-wrapper p,
+  .transaksi-section-header p {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* ===== ROLE SELECTION MOBILE ===== */
+  .role-container,
+  .role-selection,
+  .role-cards {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    padding: 20px !important;
+  }
+
+  .role-card {
+    width: 100% !important;
+    padding: 20px !important;
+  }
+
+  /* ===== PIN MODAL MOBILE ===== */
+  .modal,
+  .pin-modal,
+  .modal-content,
+  .pin-modal-content {
+    width: calc(100% - 32px) !important;
+    max-width: 380px !important;
+    margin: 0 auto !important;
+  }
+
+  .pin-input,
+  input[type="password"] {
+    font-size: 20px !important;
+    letter-spacing: 4px !important;
+    text-align: center !important;
+  }
+
+  /* ===== TOAST NOTIFICATION MOBILE ===== */
+  .toast-notification,
+  .toast {
+    left: 16px !important;
+    right: 16px !important;
+    bottom: 18px !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+  .logo-img,
+  .navbar-logo,
+  .brand-logo,
+  .site-logo,
+  header img,
+  nav img {
+    height: 48px !important;
+    max-width: 150px !important;
+  }
+
+  .nav-menu,
+  .nav-links,
+  .navbar-menu,
+  .navbar-links,
+  .navigation,
+  .menu {
+    gap: 8px 10px !important;
+  }
+
+  .nav-menu a,
+  .nav-links a,
+  .navbar-menu a,
+  .navbar-links a,
+  .navigation a,
+  .menu a {
+    font-size: 12px !important;
+    padding: 7px 8px !important;
+  }
+
+  .hero h1,
+  .home-hero h1,
+  .dashboard-hero h1,
+  h1 {
+    font-size: 26px !important;
+  }
+
+  table {
+    min-width: 720px !important;
+  }
+}
