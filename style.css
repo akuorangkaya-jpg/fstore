@@ -1784,3 +1784,371 @@ nav .logout-btn {
     min-width: 720px !important;
   }
 }
+/* REMOVE BLUE GLOW ON HOME HERO ONLY */
+.home-hero::before,
+.home-hero::after,
+.hero::before,
+.hero::after,
+.hero-section::before,
+.hero-section::after {
+  background: none !important;
+  background-image: none !important;
+  opacity: 0 !important;
+  filter: none !important;
+}
+/* HOME HERO SUBTITLE POSITION FIX */
+.home-hero p,
+.hero p,
+.hero-section p {
+  margin-top: 12px !important;
+  max-width: 820px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  line-height: 1.55 !important;
+}
+/* =========================================================
+   HOME VISUAL GALLERY - FSTORE WITH CAPTION
+========================================================= */
+
+.home-visual-gallery {
+  width: 100%;
+  max-width: 920px;
+  margin: 32px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.home-visual-item {
+  width: 100%;
+  max-width: 820px;
+  margin: 0;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(26px) scale(0.98);
+  animation: fstoreVisualFadeUp 0.9s ease forwards;
+}
+
+.home-visual-item-top {
+  animation-delay: 0.15s;
+}
+
+.home-visual-item-bottom {
+  animation-delay: 0.32s;
+}
+
+.home-visual-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 22px 55px rgba(15, 23, 42, 0.16);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.home-visual-image:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.2);
+}
+
+.home-visual-caption {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: #64748b;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+@keyframes fstoreVisualFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .home-visual-gallery {
+    max-width: 100%;
+    margin-top: 24px;
+    gap: 22px;
+  }
+
+  .home-visual-item {
+    max-width: 100%;
+  }
+
+  .home-visual-image {
+    border-radius: 18px;
+  }
+
+  .home-visual-caption {
+    margin-top: 8px;
+    font-size: 12px;
+    padding: 0 8px;
+  }
+}
+/* =========================================================
+   HOME VISUAL GALLERY - SIDE BY SIDE DESKTOP
+========================================================= */
+
+.home-visual-gallery {
+  width: 100%;
+  max-width: 1040px;
+  margin: 32px auto 0;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  gap: 28px !important;
+}
+
+.home-visual-item {
+  flex: 1 1 0;
+  max-width: 500px;
+  margin: 0;
+  text-align: center;
+}
+
+.home-visual-image {
+  width: 100%;
+  height: 310px;
+  display: block;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 22px 55px rgba(15, 23, 42, 0.16);
+}
+
+.home-visual-caption {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: #64748b;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+/* Mobile tetap atas-bawah */
+@media (max-width: 768px) {
+  .home-visual-gallery {
+    max-width: 100%;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 22px !important;
+    margin-top: 24px;
+  }
+
+  .home-visual-item {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .home-visual-image {
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+  }
+
+  .home-visual-caption {
+    margin-top: 8px;
+    font-size: 12px;
+    padding: 0 8px;
+  }
+}
+/* =========================================================
+   VIEWER WARNING TOAST
+   Warna disamakan dengan card Catatan untuk Viewer
+========================================================= */
+
+.viewer-warning-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 96px;
+  width: 390px;
+  max-width: calc(100% - 32px);
+
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  padding: 18px 44px 18px 18px;
+
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-left: 5px solid #f59e0b;
+  border-radius: 18px;
+
+  box-shadow: 0 22px 55px rgba(15, 23, 42, 0.18);
+  z-index: 9999;
+
+  animation: viewerWarningSlideIn 0.35s ease forwards;
+}
+
+.viewer-warning-toast.hide {
+  animation: viewerWarningSlideOut 0.3s ease forwards;
+}
+
+.viewer-warning-icon {
+  font-size: 22px;
+  line-height: 1;
+  margin-top: 2px;
+  color: #f59e0b;
+}
+
+.viewer-warning-content h4 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #020617;
+}
+
+.viewer-warning-content p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: #475569;
+}
+
+.viewer-warning-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+
+  width: 24px;
+  height: 24px;
+
+  border: none;
+  background: transparent;
+
+  color: #64748b;
+  font-size: 22px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.viewer-warning-close:hover {
+  color: #0f172a;
+}
+
+@keyframes viewerWarningSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(24px) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes viewerWarningSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(24px) translateY(10px);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .viewer-warning-toast {
+    left: 16px;
+    right: 16px;
+    bottom: 88px;
+    width: auto;
+    padding: 16px 40px 16px 16px;
+    border-radius: 16px;
+  }
+
+  .viewer-warning-content h4 {
+    font-size: 14px;
+  }
+
+  .viewer-warning-content p {
+    font-size: 12.5px;
+  }
+}
+/* HOME HERO SPACING FIX */
+.home-hero {
+  padding-top: 3rem !important;
+  padding-bottom: 3.5rem !important;
+  margin-bottom: 2.5rem !important;
+}
+
+.hero-title {
+  margin-top: 0 !important;
+}
+@media (max-width: 768px) {
+  .home-hero {
+    padding-top: 2.2rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+}
+/* =========================================================
+   TRANSAKSI PAGE - SECTION HEADER SPACING FIX
+   Merapikan posisi "Ringkasan Per Bulan" di dalam card putih
+========================================================= */
+
+#transactionsContainer > .section-header {
+  padding: 34px 34px 22px !important;
+  margin: 0 !important;
+}
+
+#transactionsContainer > .section-header .section-title {
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
+  line-height: 1.2 !important;
+}
+
+#transactionsContainer > .section-header .section-subtitle {
+  margin: 0 !important;
+  max-width: 780px !important;
+  line-height: 1.6 !important;
+}
+
+/* Supaya card bulanan tidak terlalu nempel ke judul */
+#transactionsContainer .monthly-summary {
+  padding: 0 34px 34px !important;
+  margin-top: 0 !important;
+}
+
+/* Bagian Daftar Transaksi juga ikut dirapikan */
+#transactionsContainer .monthly-summary + .section-header {
+  padding-top: 10px !important;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #transactionsContainer > .section-header {
+    padding: 24px 20px 18px !important;
+  }
+
+  #transactionsContainer .monthly-summary {
+    padding: 0 20px 24px !important;
+  }
+
+  #transactionsContainer > .section-header .section-title {
+    font-size: 24px !important;
+  }
+
+  #transactionsContainer > .section-header .section-subtitle {
+    font-size: 14px !important;
+  }
+}

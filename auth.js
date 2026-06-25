@@ -76,6 +76,7 @@ function showRoleSelection() {
   document.querySelector('.viewer-btn').addEventListener('click', () => {
     sessionStorage.setItem('fstore-role', 'viewer');
     sessionStorage.setItem('pendingToast', 'Anda login sebagai Viewer');
+    sessionStorage.setItem("pendingViewerNotice", "true");
     roleSelectionScreen.style.opacity = '0';
     roleSelectionScreen.style.pointerEvents = 'none';
     setTimeout(() => {
@@ -262,3 +263,145 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initAuth();
 });
+/* =========================================================
+   VIEWER WARNING NOTIFICATION
+   Muncul khusus Viewer setelah toast login Viewer
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+  const role = sessionStorage.getItem("fstore-role");
+  const pendingViewerNotice = sessionStorage.getItem("pendingViewerNotice");
+
+  const isHomePage =
+    window.location.pathname.includes("home.html") ||
+    window.location.pathname.endsWith("/");
+
+  if (role === "viewer" && pendingViewerNotice === "true" && isHomePage) {
+    sessionStorage.removeItem("pendingViewerNotice");
+
+    setTimeout(function () {
+      showViewerWarningNotice();
+    }, 4300);
+  }
+});
+
+function showViewerWarningNotice() {
+  const existingNotice = document.querySelector(".viewer-warning-toast");
+
+  if (existingNotice) {
+    existingNotice.remove();
+  }
+
+  const notice = document.createElement("div");
+  notice.className = "viewer-warning-toast";
+
+  notice.innerHTML = `
+    <button class="viewer-warning-close" aria-label="Tutup notifikasi">&times;</button>
+
+    <div class="viewer-warning-icon">⚠️</div>
+
+    <div class="viewer-warning-content">
+      <h4>Catatan untuk Viewer</h4>
+      <p>
+        Akses Anda sebagai Viewer terbatas pada halaman Home ini. Untuk mengakses Dashboard, Transaksi, atau Panduan, silakan masukkan PIN sebagai Stakeholder.
+      </p>
+    </div>
+  `;
+
+  document.body.appendChild(notice);
+
+  const closeButton = notice.querySelector(".viewer-warning-close");
+
+  closeButton.addEventListener("click", function () {
+    notice.classList.add("hide");
+
+    setTimeout(function () {
+      notice.remove();
+    }, 300);
+  });
+
+  setTimeout(function () {
+    if (document.body.contains(notice)) {
+      notice.classList.add("hide");
+
+      setTimeout(function () {
+        notice.remove();
+      }, 300);
+    }
+  }, 7000);
+}
+/* =========================================================
+   AESTHETIC CLICK SOUND
+   Suara klik halus untuk tombol dan navbar
+========================================================= */
+
+(function () {
+  let audioContext = null;
+  let isSoundReady = false;
+
+  function initAudioContext() {
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    if (audioContext.state === "suspended") {
+      audioContext.resume();
+    }
+
+    isSoundReady = true;
+  }
+
+  function playClickSound() {
+    if (!isSoundReady || !audioContext) return;
+
+    const now = audioContext.currentTime;
+
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.type = "sine";
+
+    oscillator.frequency.setValueAtTime(820, now);
+    oscillator.frequency.exponentialRampToValueAtTime(460, now + 0.055);
+
+    gainNode.gain.setValueAtTime(0.0001, now);
+    gainNode.gain.exponentialRampToValueAtTime(0.075, now + 0.006);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.start(now);
+    oscillator.stop(now + 0.08);
+  }
+
+  document.addEventListener("click", function (e) {
+    const clickableElement = e.target.closest(
+      "nav a, nav button, a, button, .role-card, .proof-link, .pin-modal-close"
+    );
+
+    if (!clickableElement) return;
+
+    initAudioContext();
+    playClickSound();
+
+    const isNavbarLink = clickableElement.matches("nav a");
+    const href = clickableElement.getAttribute("href");
+
+    if (
+      isNavbarLink &&
+      href &&
+      !href.startsWith("#") &&
+      !clickableElement.target &&
+      !e.ctrlKey &&
+      !e.metaKey &&
+      !e.shiftKey
+    ) {
+      e.preventDefault();
+
+      setTimeout(function () {
+        window.location.href = href;
+      }, 90);
+    }
+  });
+})();

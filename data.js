@@ -93,26 +93,45 @@ const SAMPLE_TRANSACTIONS = [
 ];
 
 // Fungsi untuk parsing CSV
+// Fungsi untuk parsing angka rupiah / nominal
+function parseMoney(value) {
+  if (!value) return 0;
+
+  let cleaned = String(value)
+    .replace(/Rp/gi, '')
+    .replace(/\s/g, '')
+    .replace(/\./g, '')
+    .replace(/,/g, '')
+    .replace(/[^\d-]/g, '');
+
+  return Number(cleaned) || 0;
+}
+
+// Fungsi parsing CSV yang lebih aman
 function parseCSV(csvText) {
   const lines = csvText.trim().split('\n');
   if (lines.length < 2) return [];
 
-  const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
   const transactions = [];
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
-    if (values.length >= 6) {
-      transactions.push({
-        date: values[0] || '',
-        category: values[1] || '',
-        description: values[2] || '',
-        income: parseFloat(values[3]) || 0,
-        expense: parseFloat(values[4]) || 0,
-        notes: values[5] || '',
-        proofUrl: values[6] || ''
-      });
-    }
+    const values = lines[i].match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
+
+    if (!values || values.length < 5) continue;
+
+    const cleanValues = values.map(v =>
+      v.trim().replace(/^"|"$/g, '')
+    );
+
+    transactions.push({
+      date: cleanValues[0] || '',
+      category: cleanValues[1] || '',
+      description: cleanValues[2] || '',
+      income: parseMoney(cleanValues[3]),
+      expense: parseMoney(cleanValues[4]),
+      notes: cleanValues[5] || '',
+      proofUrl: cleanValues[6] || ''
+    });
   }
 
   return transactions;
