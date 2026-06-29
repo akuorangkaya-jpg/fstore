@@ -25,17 +25,17 @@ async function initDashboard() {
 function renderSummaryCards(summary) {
   const container = document.getElementById('summaryCards');
   container.innerHTML = `
-    <div class="card income">
-      <h3>Total Pendapatan</h3>
-      <div class="amount">${formatRupiah(summary.totalIncome)}</div>
+    <div class="card card-summary income">
+      <div class="card-summary-label">Total Pendapatan</div>
+      <div class="card-summary-amount text-income">${formatRupiah(summary.totalIncome)}</div>
     </div>
-    <div class="card expense">
-      <h3>Total Pengeluaran</h3>
-      <div class="amount">${formatRupiah(summary.totalExpense)}</div>
+    <div class="card card-summary expense">
+      <div class="card-summary-label">Total Pengeluaran</div>
+      <div class="card-summary-amount text-expense">${formatRupiah(summary.totalExpense)}</div>
     </div>
-    <div class="card balance">
-      <h3>Saldo Saat Ini</h3>
-      <div class="amount">${formatRupiah(summary.balance)}</div>
+    <div class="card card-summary balance">
+      <div class="card-summary-label">Saldo Saat Ini</div>
+      <div class="card-summary-amount text-balance">${formatRupiah(summary.balance)}</div>
     </div>
   `;
 }
@@ -43,10 +43,10 @@ function renderSummaryCards(summary) {
 function renderChart(monthlyCashflow) {
   const container = document.getElementById('chartContainer');
   if (monthlyCashflow.length === 0) {
-    container.style.display = 'none';
+    container.classList.add('hidden');
     return;
   }
-  container.style.display = 'block';
+  container.classList.remove('hidden');
 
   const ctx = document.getElementById('cashflowChart').getContext('2d');
   const labels = monthlyCashflow.map(m => {
@@ -65,28 +65,33 @@ function renderChart(monthlyCashflow) {
         {
           label: 'Pendapatan',
           data: monthlyCashflow.map(m => m.income),
-          backgroundColor: '#75c900',
-          borderRadius: 8,
+          backgroundColor: '#0d9488', // Corporate Mint Green
+          borderRadius: 6,
           borderSkipped: false
         },
         {
           label: 'Pengeluaran',
           data: monthlyCashflow.map(m => m.expense),
-          backgroundColor: '#ff6b1a',
-          borderRadius: 8,
+          backgroundColor: '#ef4444', // Soft Red / Coral untuk Pengeluaran
+          borderRadius: 6,
           borderSkipped: false
         }
       ]
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false, // Menyesuaikan tinggi kontainer CSS dengan lebih fleksibel
       plugins: {
         legend: {
           position: 'top',
           labels: {
+            boxWidth: 12,
+            boxHeight: 12,
+            usePointStyle: true, // Bentuk legenda lingkaran agar lebih modern
             font: {
               family: 'Inter',
-              size: 14
+              size: 13,
+              weight: '500'
             }
           }
         }
@@ -99,8 +104,10 @@ function renderChart(monthlyCashflow) {
           },
           ticks: {
             font: {
-              family: 'Inter'
-            }
+              family: 'Inter',
+              size: 12
+            },
+            color: '#64748b'
           }
         },
         x: {
@@ -109,8 +116,10 @@ function renderChart(monthlyCashflow) {
           },
           ticks: {
             font: {
-              family: 'Inter'
-            }
+              family: 'Inter',
+              size: 12
+            },
+            color: '#64748b'
           }
         }
       }
@@ -121,19 +130,19 @@ function renderChart(monthlyCashflow) {
 function renderRecentTransactions(transactions) {
   const container = document.getElementById('recentTransactionsContainer');
   if (transactions.length === 0) {
-    container.style.display = 'none';
+    container.classList.add('hidden');
     return;
   }
-  container.style.display = 'block';
+  container.classList.remove('hidden');
 
   const tbody = document.querySelector('#recentTransactionsTable tbody');
   tbody.innerHTML = transactions.map(t => `
     <tr>
       <td>${formatDate(t.date)}</td>
-      <td>${t.category}</td>
+      <td><span class="badge-category">${t.category}</span></td>
       <td>${t.description}</td>
-      <td class="income-text">${t.income > 0 ? formatRupiah(t.income) : '-'}</td>
-      <td class="expense-text">${t.expense > 0 ? formatRupiah(t.expense) : '-'}</td>
+      <td class="text-right text-income font-medium">${t.income > 0 ? formatRupiah(t.income) : '-'}</td>
+      <td class="text-right text-expense font-medium">${t.expense > 0 ? formatRupiah(t.expense) : '-'}</td>
     </tr>
   `).join('');
 }
