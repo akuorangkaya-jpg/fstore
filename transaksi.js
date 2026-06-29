@@ -129,46 +129,45 @@ function renderTransactions(transactions) {
   const container = document.getElementById('transactionsContainer');
 
   if (transactions.length === 0) {
-    container.innerHTML = '<div class="loading">Tidak ada transaksi ditemukan.</div>';
+    container.innerHTML = `
+      <div class="empty-state">
+        <p>Tidak ada transaksi yang cocok dengan kriteria pencarian Anda.</p>
+      </div>
+    `;
     return;
   }
 
   const grouped = groupTransactionsByMonth(transactions);
   const monthKeys = Object.keys(grouped);
 
-  // Render monthly summary
-  let summaryHTML = '<div class="section-header">';
-  summaryHTML += '<h2 class="section-title">Ringkasan Per Bulan</h2>';
-  summaryHTML += '<p class="section-subtitle">Ikhtisar pemasukan, pengeluaran, saldo, dan bukti transaksi berdasarkan periode.</p>';
+  // 1. RENDER MONTHLY SUMMARY CARDS
+  let summaryHTML = '<div class="section-header-inline">';
+  summaryHTML += '<h2 class="section-title">Ringkasan Per Periode</h2>';
+  summaryHTML += '<p class="section-subtitle">Ikhtisar akumulasi pemasukan, pengeluaran, dan saldo per bulan.</p>';
   summaryHTML += '</div>';
-  summaryHTML += '<div class="monthly-summary">';
+  summaryHTML += '<div class="monthly-summary-grid">';
+  
   monthKeys.forEach(key => {
     const group = grouped[key];
     summaryHTML += `
       <div class="monthly-card">
-        <div class="monthly-header">
-          <h3>${group.name}</h3>
-        </div>
-        <div class="monthly-stats">
-          <div class="stat-row">
+        <div class="monthly-card-header">${group.name}</div>
+        <div class="monthly-stats-list">
+          <div class="stat-item">
             <span class="stat-label">Total Pemasukan</span>
-            <span class="stat-value income-text">${formatRupiah(group.totalIncome)}</span>
+            <span class="stat-value text-income font-medium">${formatRupiah(group.totalIncome)}</span>
           </div>
-          <div class="stat-row">
+          <div class="stat-item">
             <span class="stat-label">Total Pengeluaran</span>
-            <span class="stat-value expense-text">${formatRupiah(group.totalExpense)}</span>
+            <span class="stat-value text-expense font-medium">${formatRupiah(group.totalExpense)}</span>
           </div>
-          <div class="stat-row">
-            <span class="stat-label">Saldo Bulan Ini</span>
-            <span class="stat-value ${group.balance >= 0 ? 'income-text' : 'expense-text'}">${formatRupiah(group.balance)}</span>
+          <div class="stat-item border-top-dash">
+            <span class="stat-label font-bold">Net Saldo</span>
+            <span class="stat-value font-bold ${group.balance >= 0 ? 'text-income' : 'text-expense'}">${formatRupiah(group.balance)}</span>
           </div>
-          <div class="stat-row">
-            <span class="stat-label">Jumlah Transaksi</span>
-            <span class="stat-value">${group.transactionCount}</span>
-          </div>
-          <div class="stat-row">
-            <span class="stat-label">Bukti Tersedia</span>
-            <span class="stat-value">${group.proofCount}</span>
+          <div class="stat-item meta-info">
+            <span class="stat-label">Volume Transaksi</span>
+            <span class="stat-value">${group.transactionCount} data (${group.proofCount} berbukti)</span>
           </div>
         </div>
       </div>
@@ -176,47 +175,49 @@ function renderTransactions(transactions) {
   });
   summaryHTML += '</div>';
 
-  // Render transaction table
-  let tableHTML = '<div class="section-header">';
-  tableHTML += '<h2 class="section-title">Daftar Transaksi</h2>';
-  tableHTML += '<p class="section-subtitle">Seluruh riwayat transaksi yang tercatat berdasarkan data keuangan Fstore.</p>';
+  // 2. RENDER MAIN TRANSACTION TABLE
+  let tableHTML = '<div class="section-header-inline" style="margin-top: 40px;">';
+  tableHTML += '<h2 class="section-title">Log Buku Kas Finansial</h2>';
+  tableHTML += '<p class="section-subtitle">Daftar rincian transaksi kas masuk dan keluar secara kronologis.</p>';
   tableHTML += '</div>';
-  tableHTML += '<div class="table-container">';
-  tableHTML += '<table>';
+  tableHTML += '<div class="card-box table-responsive" style="padding: 0;">'; // Wrapper box putih rapi
+  tableHTML += '<table class="clean-table">';
   tableHTML += `
     <thead>
       <tr>
         <th>Tanggal</th>
         <th>Kategori</th>
         <th>Deskripsi</th>
-        <th>Pendapatan</th>
-        <th>Pengeluaran</th>
-        <th>Saldo</th>
-        <th>Bukti</th>
+        <th class="text-right">Pendapatan</th>
+        <th class="text-right">Pengeluaran</th>
+        <th class="text-right">Saldo Arus</th>
+        <th class="text-center">Dokumen</th>
       </tr>
     </thead>
     <tbody>
   `;
+  
   monthKeys.forEach(key => {
     const group = grouped[key];
     tableHTML += `
-      <tr class="month-separator">
+      <tr class="month-separator-row">
         <td colspan="7">
-          <div class="month-separator-text">${group.name}</div>
+          <div class="month-separator-badge">${group.name}</div>
         </td>
       </tr>
     `;
+    
     group.transactions.forEach(t => {
       tableHTML += `
         <tr>
-          <td>${formatDate(t.date)}</td>
-          <td>${t.category}</td>
-          <td>${t.description}</td>
-          <td class="income-text">${t.income > 0 ? formatRupiah(t.income) : '-'}</td>
-          <td class="expense-text">${t.expense > 0 ? formatRupiah(t.expense) : '-'}</td>
-          <td>${formatRupiah(t.balance)}</td>
-          <td>
-            ${t.proofUrl ? `<a href="${t.proofUrl}" target="_blank" class="proof-link">Lihat Bukti</a>` : '-'}
+          <td style="white-space: nowrap;">${formatDate(t.date)}</td>
+          <td><span class="badge-category">${t.category}</span></td>
+          <td class="text-description">${t.description}</td>
+          <td class="text-right text-income font-medium">${t.income > 0 ? formatRupiah(t.income) : '-'}</td>
+          <td class="text-right text-expense font-medium">${t.expense > 0 ? formatRupiah(t.expense) : '-'}</td>
+          <td class="text-right text-balance font-medium">${formatRupiah(t.balance)}</td>
+          <td class="text-center">
+            ${t.proofUrl ? `<a href="${t.proofUrl}" target="_blank" class="btn-proof-link">Lihat Bukti</a>` : '<span class="no-proof">-</span>'}
           </td>
         </tr>
       `;

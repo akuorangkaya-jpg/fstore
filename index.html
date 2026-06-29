@@ -10,8 +10,10 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav>
-    <div class="container">
+
+  <!-- NAVIGATION BAR (Konsisten dengan Home) -->
+  <header class="main-header">
+    <div class="container nav-container">
       <a href="home.html" class="logo">
         <img src="logo-fstore.png" alt="Logo Fstore" class="logo-img">
       </a>
@@ -22,44 +24,74 @@
         <li><a href="panduan.html">Panduan</a></li>
       </ul>
     </div>
-    <div class="header-wave"></div>
-  </nav>
+  </header>
 
-  <div class="container">
-    <div class="last-updated-wrapper">
-      <div class="last-updated" id="lastUpdated"></div>
+  <!-- DASHBOARD MAIN CONTENT -->
+  <main class="dashboard-layout">
+    <div class="container">
+      
+      <!-- Top Bar: Judul & Informasi Pembaruan -->
+      <div class="dashboard-header">
+        <h1 class="dashboard-title">Ikhtisar Finansial</h1>
+        <div class="last-updated-wrapper">
+          <span class="update-indicator"></span>
+          <div class="last-updated" id="lastUpdated">Memeriksa pembaruan...</div>
+        </div>
+      </div>
+
+      <!-- Section 1: Summary Cards -->
+      <section class="summary-section">
+        <div class="summary-cards" id="summaryCards">
+          <!-- Elemen loading dibuat lebih rapi -->
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Memuat data finansial...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Visualisasi Grafik (Menggunakan class hidden sebagai pengganti inline style) -->
+      <section class="chart-section hidden" id="chartContainer">
+        <div class="card-box">
+          <h2 class="section-title">Aliran Kas Bulanan</h2>
+          <div class="chart-wrapper">
+            <canvas id="cashflowChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Data Tabel Transaksi -->
+      <section class="table-section hidden" id="recentTransactionsContainer">
+        <div class="card-box table-responsive">
+          <h2 class="section-title">Transaksi Terbaru</h2>
+          <table id="recentTransactionsTable" class="clean-table">
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Kategori</th>
+                <th>Deskripsi</th>
+                <th class="text-right">Pendapatan</th>
+                <th class="text-right">Pengeluaran</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Data akan di-render secara dinamis oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
     </div>
+  </main>
 
-    <div class="summary-cards" id="summaryCards">
-      <div class="loading">Memuat data...</div>
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-container">
+      <p>Made with ♥, Fstore Kabinet Astravia 2026</p>
     </div>
+  </footer>
 
-    <div class="chart-container" id="chartContainer" style="display: none;">
-      <h2 class="section-title">Aliran Kas Bulanan</h2>
-      <canvas id="cashflowChart"></canvas>
-    </div>
-
-    <div class="table-container" id="recentTransactionsContainer" style="display: none;">
-      <h2 class="section-title" style="padding: 1.5rem 1.5rem 0;">Transaksi Terbaru</h2>
-      <table id="recentTransactionsTable">
-        <thead>
-          <tr>
-            <th>Tanggal</th>
-            <th>Kategori</th>
-            <th>Deskripsi</th>
-            <th>Pendapatan</th>
-            <th>Pengeluaran</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-
- <footer>
-  <p>Made with ♥, Fstore Kabinet Astravia 2026</p>
-</footer>
-
+  <!-- JAVASCRIPT ARCHITECTURE -->
   <script src="config.js"></script>
   <script src="data.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

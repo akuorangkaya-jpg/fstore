@@ -32,13 +32,14 @@ function showIntroAndRoleSelection() {
   introScreen.innerHTML = `
     <div class="intro-container">
       <img src="logo-fstore.png" alt="Logo Fstore" class="intro-logo">
+      <div class="intro-spinner"></div>
     </div>
   `;
   document.body.appendChild(introScreen);
 
   setTimeout(() => {
     showRoleSelection();
-  }, 3000);
+  }, 2500); // Dipercepat sedikit agar UX terasa lebih responsif
 }
 
 // Show role selection
@@ -46,26 +47,33 @@ function showRoleSelection() {
   if (introScreen) {
     introScreen.style.opacity = '0';
     introScreen.style.pointerEvents = 'none';
-    setTimeout(() => introScreen.remove(), 300);
+    setTimeout(() => introScreen.remove(), 400);
   }
 
   roleSelectionScreen = document.createElement('div');
   roleSelectionScreen.id = 'role-selection-screen';
   roleSelectionScreen.innerHTML = `
     <div class="role-selection-container">
-      <h2 class="role-selection-title">Pilih Akses Anda</h2>
+      <div class="role-selection-header">
+        <h2 class="role-selection-title">Sistem Rekap Finansial</h2>
+        <p class="role-selection-subtitle">Silakan tentukan jenis hak akses Anda untuk memantau data kas Fstore</p>
+      </div>
       <div class="role-cards">
         <div class="role-card stakeholder-card">
-          <div class="role-icon">👥</div>
+          <div class="role-icon">
+            <img src="icons/stakeholder.svg" alt="Stakeholder" class="role-icon-image">
+          </div>
           <h3 class="role-card-title">Stakeholder</h3>
-          <p class="role-card-description">Akses untuk pengurus atau pihak internal yang memiliki PIN.</p>
-          <button class="role-btn stakeholder-btn">Masuk sebagai Stakeholder</button>
+          <p class="role-card-description">Akses penuh peninjauan metrik utama bulanan, grafik arus kas, dan pengarsipan kuitansi digital.</p>
+          <button class="role-btn stakeholder-btn">Masuk Otoritas PIN</button>
         </div>
         <div class="role-card viewer-card">
-          <div class="role-icon">👁️</div>
-          <h3 class="role-card-title">Viewer</h3>
-          <p class="role-card-description">Akses terbatas untuk melihat informasi umum Fstore.</p>
-          <button class="role-btn viewer-btn">Masuk sebagai Viewer</button>
+          <div class="role-icon">
+            <img src="icons/eye.svg" alt="Viewer" class="role-icon-image">
+          </div>
+          <h3 class="role-card-title">General Viewer</h3>
+          <p class="role-card-description">Akses terbatas hanya untuk membaca ringkasan profil visi & misi transparansi finansial.</p>
+          <button class="role-btn viewer-btn">Masuk Ruang Publik</button>
         </div>
       </div>
     </div>
@@ -75,7 +83,7 @@ function showRoleSelection() {
   document.querySelector('.stakeholder-btn').addEventListener('click', () => showPinModal('role-select'));
   document.querySelector('.viewer-btn').addEventListener('click', () => {
     sessionStorage.setItem('fstore-role', 'viewer');
-    sessionStorage.setItem('pendingToast', 'Anda login sebagai Viewer');
+    sessionStorage.setItem('pendingToast', 'Terautentikasi sebagai Viewer Publik');
     sessionStorage.setItem("pendingViewerNotice", "true");
     roleSelectionScreen.style.opacity = '0';
     roleSelectionScreen.style.pointerEvents = 'none';
@@ -89,15 +97,19 @@ function showRoleSelection() {
 
 // Show PIN modal
 function showPinModal(type) {
+  // Prevent duplicate modals
+  if (document.getElementById('pin-modal')) return;
+
   pinModal = document.createElement('div');
   pinModal.id = 'pin-modal';
+  document.body.classList.add('modal-open');
   
-  let title = "Masukkan PIN";
-  let description = "";
+  let title = "Otorisasi Hak Akses";
+  let description = "Silakan masukkan 6 digit PIN koordinasi internal untuk memverifikasi akun Stakeholder.";
   
   if (type === 'restricted') {
-    title = "Halaman Ini Hanya untuk Stakeholder";
-    description = "Halaman ini hanya dapat diakses oleh Stakeholder. Silakan masukkan PIN untuk melanjutkan.";
+    title = "Proteksi Akses Terbatas";
+    description = "Halaman ini memerlukan validasi akuntabilitas internal. Silakan masukkan PIN pengurus Anda untuk melanjutkan.";
   }
 
   pinModal.innerHTML = `
@@ -105,14 +117,14 @@ function showPinModal(type) {
       <div class="pin-modal-content">
         <button class="pin-modal-close" aria-label="Tutup">&times;</button>
         <h3 class="pin-modal-title">${title}</h3>
-        ${description ? `<p class="pin-modal-description">${description}</p>` : ''}
+        <p class="pin-modal-description">${description}</p>
         <div class="pin-input-container">
-          <input type="password" id="pin-input" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="Masukkan 6 digit PIN">
+          <input type="password" id="pin-input" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="• • • • • •">
           <p id="pin-error" class="pin-error" style="display: none;"></p>
         </div>
         <div class="pin-modal-buttons">
           <button class="pin-modal-btn pin-cancel-btn">Kembali</button>
-          <button class="pin-modal-btn pin-submit-btn" id="pin-submit-btn">Verifikasi</button>
+          <button class="pin-modal-btn pin-submit-btn" id="pin-submit-btn">Verifikasi PIN</button>
         </div>
       </div>
     </div>
@@ -125,38 +137,31 @@ function showPinModal(type) {
   const cancelBtn = pinModal.querySelector('.pin-cancel-btn');
   const submitBtn = document.getElementById('pin-submit-btn');
 
-  // Focus the input
   setTimeout(() => pinInput.focus(), 100);
 
-  // Handle input to only allow digits
   pinInput.addEventListener('input', (e) => {
     pinInput.value = pinInput.value.replace(/\D/g, '');
     pinError.style.display = 'none';
   });
 
-  // Handle submit button
   submitBtn.addEventListener('click', verifyPin);
-
-  // Handle enter key
   pinInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      verifyPin();
-    }
+    if (e.key === 'Enter') verifyPin();
   });
 
-  // Handle cancel/close
   const handleCancel = () => {
+    document.body.classList.remove('modal-open');
     pinModal.remove();
     if (type === 'restricted') window.location.href = 'home.html';
   };
   closeBtn.addEventListener('click', handleCancel);
   cancelBtn.addEventListener('click', handleCancel);
 
-  // Verify PIN function
   function verifyPin() {
     if (pinInput.value === CORRECT_PIN) {
       sessionStorage.setItem('fstore-role', 'stakeholder');
-      sessionStorage.setItem('pendingToast', 'Anda login sebagai Stakeholder');
+      sessionStorage.setItem('pendingToast', 'Otorisasi Berhasil. Selamat Datang Stakeholder');
+      document.body.classList.remove('modal-open');
       pinModal.remove();
       if (roleSelectionScreen) {
         roleSelectionScreen.style.opacity = '0';
@@ -164,17 +169,16 @@ function showPinModal(type) {
         setTimeout(() => {
           roleSelectionScreen.remove();
           if (introScreen) introScreen.remove();
-          if (type === 'role-select') {
-            window.location.href = 'home.html';
-          }
+          if (type === 'role-select') window.location.href = 'home.html';
         }, 300);
       } else if (type === 'role-select' && !roleSelectionScreen) {
         if (introScreen) introScreen.remove();
         window.location.href = 'home.html';
       }
     } else {
-      pinError.textContent = 'PIN yang Anda masukkan salah. Silakan coba lagi atau hubungi developer untuk PIN nya.';
+      pinError.textContent = 'Kode kredensial PIN salah. Periksa kembali atau hubungi Administrator Keuangan.';
       pinError.style.display = 'block';
+      pinInput.value = '';
       pinInput.focus();
     }
   }
@@ -216,20 +220,16 @@ function addNavbarLinkListeners() {
 
 // Show login toast notification
 function showLoginToast(message) {
-  // Remove existing toast if present
   const existingToast = document.querySelector('.toast-notification');
   if (existingToast) existingToast.remove();
 
-  // Create new toast
   const toast = document.createElement('div');
   toast.className = 'toast-notification';
   toast.textContent = message;
   document.body.appendChild(toast);
 
-  // Animate in
   setTimeout(() => toast.classList.add('show'), 10);
 
-  // Animate out and remove after 4 seconds
   setTimeout(() => {
     toast.classList.remove('show');
     toast.classList.add('hide');
@@ -245,7 +245,8 @@ function logout() {
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  const navbar = document.querySelector('nav .container');
+  // TARGET ADJUSTMENT: Disesuaikan dengan struktur .main-header .nav-container baru
+  const navbar = document.querySelector('.main-header .nav-container');
   if (navbar) {
     const logoutBtn = document.createElement('button');
     logoutBtn.className = 'logout-btn';
@@ -254,7 +255,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navbar.appendChild(logoutBtn);
   }
 
-  // Check for pending toast
   const pendingToast = sessionStorage.getItem('pendingToast');
   if (pendingToast) {
     sessionStorage.removeItem('pendingToast');
@@ -263,11 +263,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initAuth();
 });
+
 /* =========================================================
    VIEWER WARNING NOTIFICATION
-   Muncul khusus Viewer setelah toast login Viewer
 ========================================================= */
-
 document.addEventListener("DOMContentLoaded", function () {
   const role = sessionStorage.getItem("fstore-role");
   const pendingViewerNotice = sessionStorage.getItem("pendingViewerNotice");
@@ -278,7 +277,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (role === "viewer" && pendingViewerNotice === "true" && isHomePage) {
     sessionStorage.removeItem("pendingViewerNotice");
-
     setTimeout(function () {
       showViewerWarningNotice();
     }, 4300);
@@ -287,54 +285,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function showViewerWarningNotice() {
   const existingNotice = document.querySelector(".viewer-warning-toast");
-
-  if (existingNotice) {
-    existingNotice.remove();
-  }
+  if (existingNotice) existingNotice.remove();
 
   const notice = document.createElement("div");
   notice.className = "viewer-warning-toast";
-
   notice.innerHTML = `
     <button class="viewer-warning-close" aria-label="Tutup notifikasi">&times;</button>
-
-    <div class="viewer-warning-icon">⚠️</div>
-
+    <div class="viewer-warning-icon">
+      <img src="icons/warning.svg" alt="Warning" class="viewer-warning-icon-image">
+    </div>
     <div class="viewer-warning-content">
-      <h4>Catatan untuk Viewer</h4>
-      <p>
-        Akses Anda sebagai Viewer terbatas pada halaman Home ini. Untuk mengakses Dashboard, Transaksi, atau Panduan, silakan masukkan PIN sebagai Stakeholder.
-      </p>
+      <h4>Restriksi Hak Akses Viewer</h4>
+      <p>Akses peninjauan Anda saat ini dibatasi hanya pada halaman pandangan umum (Home). Silakan otorisasi PIN jika memerlukan transparansi data penuh buku kas.</p>
     </div>
   `;
 
   document.body.appendChild(notice);
 
   const closeButton = notice.querySelector(".viewer-warning-close");
-
   closeButton.addEventListener("click", function () {
     notice.classList.add("hide");
-
-    setTimeout(function () {
-      notice.remove();
-    }, 300);
+    setTimeout(function () { notice.remove(); }, 300);
   });
 
   setTimeout(function () {
     if (document.body.contains(notice)) {
       notice.classList.add("hide");
-
-      setTimeout(function () {
-        notice.remove();
-      }, 300);
+      setTimeout(function () { notice.remove(); }, 300);
     }
   }, 7000);
 }
-/* =========================================================
-   AESTHETIC CLICK SOUND
-   Suara klik halus untuk tombol dan navbar
-========================================================= */
 
+/* =========================================================
+   AESTHETIC CLICK SOUND (Web Audio API)
+========================================================= */
 (function () {
   let audioContext = null;
   let isSoundReady = false;
@@ -343,11 +327,9 @@ function showViewerWarningNotice() {
     if (!audioContext) {
       audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
-
     if (audioContext.state === "suspended") {
       audioContext.resume();
     }
-
     isSoundReady = true;
   }
 
@@ -355,12 +337,10 @@ function showViewerWarningNotice() {
     if (!isSoundReady || !audioContext) return;
 
     const now = audioContext.currentTime;
-
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 
     oscillator.type = "sine";
-
     oscillator.frequency.setValueAtTime(820, now);
     oscillator.frequency.exponentialRampToValueAtTime(460, now + 0.055);
 
@@ -377,7 +357,7 @@ function showViewerWarningNotice() {
 
   document.addEventListener("click", function (e) {
     const clickableElement = e.target.closest(
-      "nav a, nav button, a, button, .role-card, .proof-link, .pin-modal-close"
+      "nav a, .main-header a, button, .role-card, .btn-proof-link, .pin-modal-close"
     );
 
     if (!clickableElement) return;
@@ -385,7 +365,7 @@ function showViewerWarningNotice() {
     initAudioContext();
     playClickSound();
 
-    const isNavbarLink = clickableElement.matches("nav a");
+    const isNavbarLink = clickableElement.matches(".main-header a, nav a");
     const href = clickableElement.getAttribute("href");
 
     if (
@@ -398,7 +378,6 @@ function showViewerWarningNotice() {
       !e.shiftKey
     ) {
       e.preventDefault();
-
       setTimeout(function () {
         window.location.href = href;
       }, 90);

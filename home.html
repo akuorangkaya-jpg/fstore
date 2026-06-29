@@ -10,98 +10,104 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav>
-  <div class="container">
-    <a href="home.html" class="logo">
-      <img src="logo-fstore.png" alt="Logo Fstore" class="logo-img">
-    </a>
 
-    <ul class="nav-links">
-      <li><a href="home.html" class="active">Home</a></li>
-      <li><a href="index.html">Dashboard</a></li>
-      <li><a href="transaksi.html">Transaksi</a></li>
-      <li><a href="panduan.html">Panduan</a></li>
-    </ul>
-  </div>
+  <!-- NAVIGATION BAR -->
+  <header class="main-header">
+    <div class="container nav-container">
+      <a href="home.html" class="logo">
+        <img src="logo-fstore.png" alt="Logo Fstore" class="logo-img">
+      </a>
+      <ul class="nav-links">
+        <li><a href="home.html" class="active">Home</a></li>
+        <li><a href="index.html">Dashboard</a></li>
+        <li><a href="transaksi.html">Transaksi</a></li>
+        <li><a href="panduan.html">Panduan</a></li>
+      </ul>
+    </div>
+  </header>
 
-  <div class="header-wave"></div>
-</nav>
-
-  <div class="container">
-    <!-- Hero Section -->
-    <section class="home-hero">
-      <div class="hero-content">
+  <!-- HERO SECTION -->
+  <section class="home-hero">
+    <div class="container hero-container">
+      <div class="hero-text-content">
         <h1 class="hero-title">Portal Transparansi Keuangan Fstore</h1>
         <p class="hero-subtitle">Akses tinjauan komprehensif atas arus kas dan performa keuangan Fstore, disajikan secara terpusat untuk memudahkan pemantauan data finansial yang objektif.</p>
-        <div class="home-visual-gallery">
-
-  <figure class="home-visual-item home-visual-item-top">
-    <img 
-      src="home-foto-atas.jpeg" 
-      alt="Buka bersama bidang Technopreneurship" 
-      class="home-visual-image"
-    >
-    <figcaption class="home-visual-caption">
-      5 Maret 2026 - Buka bersama bidang Technopreneurship
-    </figcaption>
-  </figure>
-
-  <figure class="home-visual-item home-visual-item-bottom">
-    <img 
-      src="home-foto-bawah.jpeg" 
-      alt="First Gathering kabinet Astravia" 
-      class="home-visual-image"
-    >
-    <figcaption class="home-visual-caption">
-      8 Maret 2026 - First Gathering kabinet Astravia
-    </figcaption>
-  </figure>
-
-</div>
+        <div class="hero-actions">
+          <a href="index.html" class="btn btn-primary">Buka Dashboard</a>
+        </div>
+      </div>
       
+      <div class="hero-visual-gallery">
+        <figure class="home-visual-item home-visual-item-top">
+          <img src="home-foto-atas.jpeg" alt="Buka bersama bidang Technopreneurship" class="home-visual-image">
+          <figcaption class="home-visual-caption">5 Maret 2026 - Buka bersama bidang Technopreneurship</figcaption>
+        </figure>
+        <figure class="home-visual-item home-visual-item-bottom">
+          <img src="home-foto-bawah.jpeg" alt="First Gathering kabinet Astravia" class="home-visual-image">
+          <figcaption class="home-visual-caption">8 Maret 2026 - First Gathering kabinet Astravia</figcaption>
+        </figure>
       </div>
-      <div class="hero-decorations">
-        <div class="hero-shape shape-1"></div>
-        <div class="hero-shape shape-2"></div>
-        <div class="hero-shape shape-3"></div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- About Section -->
-    <section class="about-section">
-      <h2 class="section-title">Tujuan</h2>
+  <!-- ABOUT SECTION -->
+  <section class="about-section">
+    <div class="container">
+      <h2 class="section-title">Tujuan Portal</h2>
+      <p class="section-subtitle">Komitmen kami dalam mengelola akuntabilitas organisasi secara terbuka.</p>
+      
       <div class="about-cards">
         <div class="about-card">
-          <div class="about-icon">💎</div>
+          <div class="about-icon">
+            <img src="icons/file-check.svg" alt="Transparansi" class="about-icon-image">
+          </div>
           <h3>Transparansi</h3>
           <p>Informasi keuangan yang terbuka dan mudah diakses oleh semua pihak yang berkepentingan.</p>
         </div>
         <div class="about-card">
-          <div class="about-icon">✅</div>
+          <div class="about-icon">
+            <img src="icons/check-check.svg" alt="Akuntabilitas" class="about-icon-image">
+          </div>
           <h3>Akuntabilitas</h3>
           <p>Laporan keuangan yang terstruktur dan dapat dipertanggungjawabkan.</p>
         </div>
         <div class="about-card">
-          <div class="about-icon">📊</div>
+          <div class="about-icon">
+            <img src="icons/chart.svg" alt="Akses Informasi Rapi" class="about-icon-image">
+          </div>
           <h3>Akses Informasi Rapi</h3>
           <p>Data keuangan yang disajikan dengan rapi dan mudah dipahami.</p>
         </div>
         <div class="about-card">
-          <div class="about-icon">📁</div>
+          <div class="about-icon">
+            <img src="icons/folder-check.svg" alt="Dokumentasi Terorganisir" class="about-icon-image">
+          </div>
           <h3>Dokumentasi Terorganisir</h3>
           <p>Dokumentasi keuangan yang mudah dipantau dan diakses kapan saja.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Viewer Notice -->
-    <section class="viewer-notice">
-    </section>
-  </div>
+  <!-- VIEWER NOTICE -->
+  <section class="viewer-notice">
+    <div class="container notice-container">
+      <div class="notice-box">
+        <div class="notice-box-header">
+          <img src="icons/megaphone.svg" alt="Pengumuman" class="notice-icon-image">
+          <h4>Catatan untuk Pengunjung</h4>
+        </div>
+        <p>Seluruh data transaksi dan laporan yang disajikan dalam portal ini diperbarui secara berkala oleh Divisi Keuangan Fstore Kabinet Astravia 2026 demi menjaga validitas informasi.</p>
+      </div>
+    </div>
+  </section>
 
+  <!-- FOOTER -->
   <footer>
-  <p>Made with ♥, Fstore Kabinet Astravia 2026</p>
-</footer>
+    <div class="container footer-container">
+      <p>Made with ♥, Fstore Kabinet Astravia 2026</p>
+    </div>
+  </footer>
 
   <script src="auth.js"></script>
 </body>

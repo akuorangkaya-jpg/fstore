@@ -6,12 +6,14 @@
   <title>Fstore - Transaksi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght600;700;800&family=Inter:wght400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav>
-    <div class="container">
+
+  <!-- NAVIGATION BAR (Konsisten antar halaman) -->
+  <header class="main-header">
+    <div class="container nav-container">
       <a href="home.html" class="logo">
         <img src="logo-fstore.png" alt="Logo Fstore" class="logo-img">
       </a>
@@ -22,35 +24,73 @@
         <li><a href="panduan.html">Panduan</a></li>
       </ul>
     </div>
-    <div class="header-wave"></div>
-  </nav>
+  </header>
 
-  <div class="container">
-    <div class="last-updated-wrapper">
-      <div class="last-updated" id="lastUpdated"></div>
-    </div>
+  <!-- TRANSACTION MAIN CONTENT -->
+  <main class="transaction-layout">
+    <div class="container">
+      
+      <!-- Top Bar Halaman -->
+      <div class="transaction-page-header">
+        <h1 class="page-title">Riwayat Transaksi Keuangan</h1>
+        <div class="last-updated-wrapper">
+          <span class="update-indicator"></span>
+          <div class="last-updated" id="lastUpdated">Memeriksa pembaruan...</div>
+        </div>
+      </div>
 
-    <div class="filters">
-      <input type="text" id="searchInput" placeholder="Cari deskripsi...">
-      <select id="categoryFilter">
-        <option value="">Semua Kategori</option>
-        <option value="Pendapatan">Pendapatan</option>
-        <option value="Pengeluaran">Pengeluaran</option>
-      </select>
-      <input type="month" id="monthFilter">
-      <input type="date" id="startDateFilter" placeholder="Tanggal Mulai">
-      <input type="date" id="endDateFilter" placeholder="Tanggal Akhir">
-    </div>
+      <!-- Kotak Filter & Pencarian yang Terstruktur -->
+      <section class="filter-section-box">
+        <div class="filter-grid">
+          <div class="filter-group search-main">
+            <label for="searchInput">Pencarian</label>
+            <input type="text" id="searchInput" placeholder="Cari deskripsi transaksi...">
+          </div>
+          <div class="filter-group">
+            <label for="categoryFilter">Jenis Kas</label>
+            <select id="categoryFilter">
+              <option value="">Semua Jenis</option>
+              <option value="Pendapatan">Pendapatan</option>
+              <option value="Pengeluaran">Pengeluaran</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="monthFilter">Bulan Spesifik</label>
+            <input type="month" id="monthFilter">
+          </div>
+          <div class="filter-group">
+            <label for="startDateFilter">Tanggal Mulai</label>
+            <input type="date" id="startDateFilter">
+          </div>
+          <div class="filter-group">
+            <label for="endDateFilter">Tanggal Akhir</label>
+            <input type="date" id="endDateFilter">
+          </div>
+        </div>
+      </section>
 
-    <div class="table-container" id="transactionsContainer">
-      <div class="loading">Memuat data...</div>
+      <!-- Tempat Penampungan Tabel Transaksi -->
+<section class="table-section">
+  <!-- JavaScript akan menyuntikkan seluruh komponen ke dalam div ini -->
+  <div id="transactionsContainer">
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Memuat seluruh data transaksi...</p>
     </div>
   </div>
+</section>
 
+    </div>
+  </main>
+
+  <!-- FOOTER -->
   <footer>
-  <p>Made with ♥, Fstore Kabinet Astravia 2026</p>
-</footer>
+    <div class="container footer-container">
+      <p>Made with ♥, Fstore Kabinet Astravia 2026</p>
+    </div>
+  </footer>
 
+  <!-- SCRIPT ARCHITECTURE -->
   <script src="config.js"></script>
   <script src="data.js"></script>
   <script src="transaksi.js"></script>

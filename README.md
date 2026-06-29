@@ -6,7 +6,7 @@ Website transparansi keuangan untuk organisasi Fstore. Dibuat dengan HTML, CSS, 
 
 - **Intro Animasi**: Tampilan intro dengan logo dan animasi geometris saat pertama kali membuka website
 - **Pemilihan Peran**: Pilih antara "Stakeholder" (membutuhkan PIN) atau "Viewer" (akses terbatas)
-- **PIN Gate**: Sistem PIN sederhana untuk akses stakeholder (PIN default: 072201)
+- **PIN Gate**: Sistem PIN sederhana untuk akses stakeholder 
 - **Home**: Halaman beranda dengan informasi tentang Fstore, fitur, dan catatan untuk viewer
 - **Dashboard**: Ringkasan total pendapatan, pengeluaran, dan saldo saat ini, beserta grafik aliran kas bulanan dan transaksi terbaru
 - **Transaksi**: Tabel semua transaksi dengan fitur filter (kategori, tanggal, bulan) dan pencarian
